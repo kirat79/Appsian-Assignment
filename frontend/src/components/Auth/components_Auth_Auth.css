@@ -1,0 +1,139 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d9488 100%);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background effect */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.25) 0%,
+    transparent 70%
+  );
+  top: -200px;
+  right: -200px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.auth-container::after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.15) 0%,
+    transparent 70%
+  );
+  bottom: -175px;
+  left: -175px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(25px, 25px);
+  }
+}
+
+.auth-card {
+  background: rgba(26, 31, 46, 0.85);
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 80px rgba(20, 184, 166, 0.08);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--light-text);
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--primary-turquoise),
+    var(--primary-cyan)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--gray-text);
+  font-size: 0.875rem;
+}
+
+.auth-link a {
+  color: var(--primary-turquoise);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+}
+
+.auth-link a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background: var(--primary-turquoise);
+  transition: width 0.3s ease;
+}
+
+.auth-link a:hover::after {
+  width: 100%;
+}
+
+/* Button full width for auth forms */
+.auth-card .btn-primary {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .auth-card {
+    padding: 1.75rem;
+  }
+
+  .auth-card h2 {
+    font-size: 1.5rem;
+  }
+}
