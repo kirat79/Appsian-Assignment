@@ -9,6 +9,13 @@ using backend.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Kestrel to listen on the PORT environment variable (Render requirement)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(int.Parse(port));
+});
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -72,11 +79,14 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Configure CORS
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() 
+    ?? new[] { "http://localhost:5173", "http://localhost:3000" };
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -98,7 +108,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Enable Swagger in production for API testing (optional, remove if not needed)
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Don't force HTTPS redirect in production (Render handles this)
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
 
